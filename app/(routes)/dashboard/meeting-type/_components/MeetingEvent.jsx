@@ -59,7 +59,7 @@ function MeetingEvent() {
   const onDeleteMeetingEvent = async (event) => {
     try{
       await deleteDoc(doc(db, "MeetingEvent", event?.id)).then((resp) => {
-        toast("meeting event deleted!");
+        toast("meeting deleted!");
         getEventList();
       });
     }catch(error){

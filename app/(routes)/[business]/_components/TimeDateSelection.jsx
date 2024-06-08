@@ -26,12 +26,13 @@ function TimeDateSelection({date , handleDateChange , timeSolts ,setSelectedTime
             {timeSolts?.map((time, index) => (
               <Button
                 key={index}
-                disabled={!enableTimeSlot || checkTimeSlot(time)}
+                disabled={ checkTimeSlot(time) || !enableTimeSlot}
                 onClick = {()=>setSelectedTime(time)}
                 className={`border-primary text-primary ${time==selectedTime&&'bg-primary text-white'}`}
                 variant="outline"
               >
                 {time}
+                <br />
               </Button>
             ))}
           </div>

@@ -12,6 +12,7 @@ import {
   getFirestore,
   updateDoc,
 } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -29,6 +30,7 @@ function Availability() {
   const [endTime, setEndTime] = useState();
   const db = getFirestore(app);
   const { user } = useKindeBrowserClient();
+  const router = useRouter();
 
   useEffect(() => {
     user && getBusinessInfo();
@@ -60,6 +62,7 @@ function Availability() {
     }).then((resp) => {
         console.log(daysAvailable);
         toast("change updated !");
+        router.replace('/dashboard/meeting-type');
     });
   };
 

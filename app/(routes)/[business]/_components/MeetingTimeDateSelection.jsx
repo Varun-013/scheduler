@@ -140,10 +140,10 @@ function MeetingTimeDateSelection({ eventInfo, businessInfo }) {
             <h2 className="flex gap-2 font-medium">
               <CalendarCheck /> {format(date, "PPP")}
             </h2>
-            <h2 className="flex gap-2 font-medium">
+            {selectedTime&&<h2 className="flex gap-2 font-medium">
               <Timer /> {selectedTime}
-            </h2>
-            <Link href={"#"} className="text-primary ">
+            </h2>}
+            <Link href={eventInfo?.locationUrl?eventInfo.locationUrl:"#"} className="text-primary ">
               {eventInfo?.locationUrl}
             </Link>
           </div>

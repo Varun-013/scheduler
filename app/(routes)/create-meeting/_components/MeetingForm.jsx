@@ -54,7 +54,7 @@ function MeetingForm({ setFormValue }) {
       businessId: doc(db, "Business", user?.email),
       createdBy: user?.email
     })
-      toast("new event created!!");
+      toast("meeting created!!");
       router.replace('/dashboard/meeting-type');
     ;
   };
