@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { interval } from "date-fns";
+import { app } from "@/config/FirebaseConfig";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,13 +11,16 @@ import React, { useEffect, useState } from "react";
 function PreviewMeeting({ formValue }) {
   const [date, setDate] = useState(new Date());
   const [timeSolts , setTimeSlots] = useState();
+  
   useEffect(() => {
     formValue?.duration && createTimeSlot(formValue?.duration);
-  }, [formValue]);
+  }, [formValue,]);
+
+  
 
   const createTimeSlot = (interval) => {
-    const startTime = 8 * 60; // 8 AM in minutes
-    const endTime = 22 * 60; // 10 PM in minutes
+    const startTime = 0 * 60; // 8 AM in minutes
+    const endTime = 24 * 60; // 10 PM in minutes
     const totalSlots = (endTime - startTime) / interval;
     const slots = Array.from({ length: totalSlots }, (_, i) => {
       const totalMinutes = startTime + i * interval;
@@ -60,7 +65,7 @@ function PreviewMeeting({ formValue }) {
               selected={date}
               onSelect={setDate}
               className="rounded-md border mt-5"
-              disabled = {(date)=> date < new Date()}
+              disabled = {(date)=> date <= new Date()}
             />
           </div>
           <div className="flex flex-col w-full overflow-auto gap-4 p-5"

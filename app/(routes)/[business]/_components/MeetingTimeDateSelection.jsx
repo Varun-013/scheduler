@@ -38,8 +38,9 @@ function MeetingTimeDateSelection({ eventInfo, businessInfo }) {
   }, [eventInfo]);
 
   const createTimeSlot = (interval) => {
-    const startTime = 8 * 60; // 8 AM in minutes
-    const endTime = 22 * 60; // 10 PM in minutes
+    console.log(businessInfo.startTime + " " + businessInfo.endTime);
+    const startTime = parseInt(businessInfo.startTime) * 60; // 8 AM in minutes
+    const endTime = parseInt(businessInfo.endTime)* 60; // 10 PM in minutes
     const totalSlots = (endTime - startTime) / interval;
     const slots = Array.from({ length: totalSlots }, (_, i) => {
       const totalMinutes = startTime + i * interval;
