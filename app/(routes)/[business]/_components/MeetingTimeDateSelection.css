@@ -1,0 +1,31 @@
+.rotate-animation {
+  transform: rotateX(360deg); /* Rotate along the x-axis */
+  transition: transform 1s ease-in-out;
+}
+
+.celebration {
+  position: relative; /* Allows absolute positioning for children */
+  display: flex;
+  justify-content: space-between; /* Space out the elements */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Full width */
+}
+
+.confetti {
+  width: 50px;
+  height: 50px;
+  background-color: #FF5733; /* Example color */
+  border-radius: 50%;
+  animation: fall 2s infinite; /* Animate falling effect */
+}
+
+@keyframes fall {
+  0% {
+      transform: translateY(-100px);
+      opacity: 1;
+  }
+  100% {
+      transform: translateY(100px);
+      opacity: 0;
+  }
+}
