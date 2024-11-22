@@ -32,13 +32,7 @@ function SideNavBar() {
       name: "Avaliability",
       path: "/dashboard/availability",
       icon: Clock,
-    },
-    {
-      id: 4,
-      name: "Settings",
-      path: "/dashboard/settings",
-      icon: Settings,
-    },
+    }
   ];
   const path = usePathname();
   const [activePath, setActivePath] = useState(path);

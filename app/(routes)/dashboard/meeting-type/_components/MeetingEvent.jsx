@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { app } from "@/config/FirebaseConfig";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy } from "firebase/firestore";
-import { collection, query, where} from "firebase/firestore";
-import { Clock, Copy, MapPin, Pen, Settings, Trash } from "lucide-react";
+import { collection, query, where } from "firebase/firestore";
+import { Clock, Copy, MapPin, Settings, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
@@ -14,12 +14,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-function MeetingEvent() {
-
+function MeetingEvent({ searchTerm }) {
   const db = getFirestore(app);
   const { user } = useKindeBrowserClient();
   const [eventList, setEventList] = useState([]);
-  const [businessInfo , setBusinessInfo] = useState();
+  const [businessInfo, setBusinessInfo] = useState();
 
   useEffect(() => {
     if (user) {
@@ -49,36 +48,39 @@ function MeetingEvent() {
     }
   };
 
-  const BusinessInfo = async()=>{
-    const docRef = doc(db , 'Business' , user.email);
+  const BusinessInfo = async () => {
+    const docRef = doc(db, "Business", user.email);
     const docSnap = await getDoc(docRef);
     console.log(docSnap.data());
     setBusinessInfo(docSnap.data());
-  }
+  };
 
   const onDeleteMeetingEvent = async (event) => {
-    try{
-      await deleteDoc(doc(db, "MeetingEvent", event?.id)).then((resp) => {
-        toast("meeting deleted!");
+    try {
+      await deleteDoc(doc(db, "MeetingEvent", event?.id)).then(() => {
+        toast("Meeting deleted!");
         getEventList();
       });
-    }catch(error){
-      console.error('unable to delete event :' ,error)
+    } catch (error) {
+      console.error("Unable to delete event: ", error);
     }
   };
 
-  const onCopyClickHandler = (event)=>{
-      const meetingEventUrl = process.env.NEXT_PUBLIC_BASE_URL+'/'+businessInfo.businessName +'/'+event.id
-      navigator.clipboard.writeText(meetingEventUrl);;
-      toast("Copied to clipboard");
-  }
+  const onCopyClickHandler = (event) => {
+    const meetingEventUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${businessInfo.businessName}/${event.id}`;
+    navigator.clipboard.writeText(meetingEventUrl);
+    toast("Copied to clipboard");
+  };
+
+  // Filter the event list based on the search term
+  const filteredEvents = eventList.filter((event) =>
+    event.eventName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-
-      {eventList.length > 0 ? (
-        eventList?.map((event, index) => (
-
+      {filteredEvents.length > 0 ? (
+        filteredEvents.map((event, index) => (
           <div
             key={index}
             className="border shadow-md border-t-8 rounded-lg p-5"
@@ -90,10 +92,6 @@ function MeetingEvent() {
                   <Settings className="cursor-pointer" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem className="flex gap-2">
-                    <Pen width={15} height={15} />
-                    Edit
-                  </DropdownMenuItem>
                   <DropdownMenuItem
                     className="flex gap-2"
                     onClick={() => onDeleteMeetingEvent(event)}
@@ -111,7 +109,7 @@ function MeetingEvent() {
               <h2 className="flex gap-2 text-gray-500 ">
                 <Clock /> {event.duration}
               </h2>
-              <h2 className="flex gap-2  text-gray-500 ">
+              <h2 className="flex gap-2 text-gray-500 ">
                 <MapPin /> {event.locationType}
               </h2>
             </div>
@@ -120,9 +118,7 @@ function MeetingEvent() {
               <h2
                 className="flex gap-2 text-sm text-primary 
               items-center cursor-pointer"
-                onClick={() => {
-                  onCopyClickHandler(event);
-                }}
+                onClick={() => onCopyClickHandler(event)}
               >
                 <Copy className="h-4 w-4" />
                 copy link
@@ -137,7 +133,7 @@ function MeetingEvent() {
           </div>
         ))
       ) : (
-        <h2>Loading..contents</h2>
+        <h2>No events found.</h2>
       )}
     </div>
   );

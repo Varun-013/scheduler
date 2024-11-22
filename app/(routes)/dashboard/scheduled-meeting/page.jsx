@@ -50,7 +50,7 @@ function ScheduledMeeting() {
         <Tabs defaultValue="upcoming" className="w-[400px]">
         <TabsList>
             <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-            <TabsTrigger value="expired">Expired</TabsTrigger>
+            <TabsTrigger value="expired">Completed</TabsTrigger>
         </TabsList>
         <TabsContent value="upcoming">
             <ScheduledMeetingList meetingList = {filerMeetingList('upcoming')} type={'upcoming'}/>

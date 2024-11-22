@@ -28,7 +28,7 @@ function TimeDateSelection({date , handleDateChange , timeSolts ,setSelectedTime
                 key={index}
                 disabled={ checkTimeSlot(time) || !enableTimeSlot}
                 onClick = {()=>setSelectedTime(time)}
-                className={`border-primary text-primary ${time==selectedTime&&'bg-primary text-white'}`}
+                className={`border-primary text-primary ${time==selectedTime && 'bg-primary text-white'}`}
                 variant="outline"
               >
                 {time}
